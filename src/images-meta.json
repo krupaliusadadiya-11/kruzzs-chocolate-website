@@ -1,0 +1,218 @@
+{
+ "p-pistachio": {
+  "w": 2000,
+  "h": 1333,
+  "by": "Tamanna Rumee",
+  "id": "1772985504166-2de66b3d9a14",
+  "bw": 1400,
+  "sw": 720
+ },
+ "p-midnight": {
+  "w": 2000,
+  "h": 1333,
+  "by": "Tamanna Rumee",
+  "id": "1772986258634-a729cd51aea4",
+  "bw": 1400,
+  "sw": 720
+ },
+ "p-truffles": {
+  "w": 2000,
+  "h": 1234,
+  "by": "amirali mirhashemian",
+  "id": "1582493255270-b3844e2a63c8",
+  "bw": 1400,
+  "sw": 720
+ },
+ "p-bites": {
+  "w": 2000,
+  "h": 1125,
+  "by": "Jessica Loaiza",
+  "id": "1599599810769-bcde5a160d32",
+  "bw": 1400,
+  "sw": 720
+ },
+ "i-hazel": {
+  "w": 2000,
+  "h": 1500,
+  "by": "Anna Evans",
+  "id": "1666512834316-b4ab32f0e313",
+  "bw": 1000,
+  "sw": 560
+ },
+ "p-hazelnut": {
+  "w": 2000,
+  "h": 3000,
+  "by": "Tetiana Bykovets",
+  "id": "1620884463224-55e55b0ae83f",
+  "bw": 1400,
+  "sw": 720
+ },
+ "p-brownie": {
+  "w": 2000,
+  "h": 1500,
+  "by": "Ella Olsson",
+  "id": "1570145820259-b5b80c5c8bd6",
+  "bw": 1400,
+  "sw": 720
+ },
+ "i-cocoa": {
+  "w": 2000,
+  "h": 3000,
+  "by": "Tetiana Bykovets",
+  "id": "1615289442666-fed9cec7169a",
+  "bw": 1000,
+  "sw": 560
+ },
+ "p-milky": {
+  "w": 2000,
+  "h": 3000,
+  "by": "Tetiana Bykovets",
+  "id": "1623660053975-cf75a8be0908",
+  "bw": 1400,
+  "sw": 720
+ },
+ "i-milk": {
+  "w": 2000,
+  "h": 3000,
+  "by": "Eiliv Aceron",
+  "id": "1550583724-b2692b85b150",
+  "bw": 1000,
+  "sw": 560
+ },
+ "g-box": {
+  "w": 2000,
+  "h": 1333,
+  "by": "sooji min",
+  "id": "1687795097254-f019f9d7fd17",
+  "bw": 1000,
+  "sw": 560
+ },
+ "p-caramel": {
+  "w": 2000,
+  "h": 3000,
+  "by": "Julia Zyablova",
+  "id": "1627647227768-705244233b56",
+  "bw": 1400,
+  "sw": 720
+ },
+ "i-butter": {
+  "w": 2000,
+  "h": 3000,
+  "by": "Alex Bayev",
+  "id": "1702650730093-43cfa3237228",
+  "bw": 1000,
+  "sw": 560
+ },
+ "g-heart": {
+  "w": 2000,
+  "h": 1333,
+  "by": "Luiz Paulo R Santos",
+  "id": "1623284060556-37e5ff559dd3",
+  "bw": 1000,
+  "sw": 560
+ },
+ "g-red": {
+  "w": 2000,
+  "h": 1333,
+  "by": "Scarlett Alt",
+  "id": "1656821991451-cc43cb996235",
+  "bw": 1000,
+  "sw": 560
+ },
+ "i-caramel": {
+  "w": 2000,
+  "h": 2667,
+  "by": "Yulia Khlebnikova",
+  "id": "1568657704598-602700bd9694",
+  "bw": 1000,
+  "sw": 560
+ },
+ "i-vanilla": {
+  "w": 2000,
+  "h": 2501,
+  "by": "Jocelyn Morales",
+  "id": "1592788174877-3f99727fd23d",
+  "bw": 1000,
+  "sw": 560
+ },
+ "s-raspberry": {
+  "w": 2000,
+  "h": 1333,
+  "by": "Massimo Adami",
+  "id": "1567270745444-ca3f1e2ba6c1",
+  "bw": 1200,
+  "sw": 640
+ },
+ "t-swirl": {
+  "w": 2000,
+  "h": 1333,
+  "by": "James Trenda",
+  "id": "1657502096852-340a75dc56f7",
+  "bw": 1600,
+  "sw": 800
+ },
+ "s-pod": {
+  "w": 2000,
+  "h": 1333,
+  "by": "Kristiana Pinne",
+  "id": "1545567725-ab9b17093edc",
+  "bw": 1200,
+  "sw": 640
+ },
+ "t-silk": {
+  "w": 2000,
+  "h": 2500,
+  "by": "Eveling Salazar",
+  "id": "1786665578937-ae9ef1fa32f4",
+  "bw": 1600,
+  "sw": 800
+ },
+ "s-hearts": {
+  "w": 2000,
+  "h": 2667,
+  "by": "Deyan Sight",
+  "id": "1782890139896-b1669eb57785",
+  "bw": 1200,
+  "sw": 640
+ },
+ "t-pour": {
+  "w": 2000,
+  "h": 3000,
+  "by": "Arwen",
+  "id": "1777647322811-af273ac27c29",
+  "bw": 1600,
+  "sw": 800
+ },
+ "s-stack": {
+  "w": 2000,
+  "h": 1333,
+  "by": "Michele Blackwell",
+  "id": "1565071559227-20ab25b7685e",
+  "bw": 1400,
+  "sw": 720
+ },
+ "s-pieces": {
+  "w": 2000,
+  "h": 3000,
+  "by": "Keriliwi",
+  "id": "1623068905214-f8b8f2222dde",
+  "bw": 1200,
+  "sw": 640
+ },
+ "t-macro": {
+  "w": 2000,
+  "h": 3000,
+  "by": "Tetiana Bykovets",
+  "id": "1619848566843-9027f3c7aac2",
+  "bw": 1600,
+  "sw": 800
+ },
+ "s-pinkbars": {
+  "w": 2000,
+  "h": 3000,
+  "by": "Hakuna Matata",
+  "id": "1591084616291-c9ef84bbc70b",
+  "bw": 1400,
+  "sw": 720
+ }
+}

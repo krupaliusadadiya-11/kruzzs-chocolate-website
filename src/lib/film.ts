@@ -1,0 +1,35 @@
+/**
+ * Mutable state the scroll timelines write and the render loops read.
+ * Nothing here triggers React renders: GSAP tweens numbers, useFrame consumes them.
+ */
+export const film = {
+  // bar placement: hero = 1 → the hero column pose (layout-aware), 0 → centre stage
+  hero: 1,
+  size: 0.56, // centre-stage size, fraction of viewport width taken by the bar
+  lift: 0, // centre-stage vertical offset, fraction of half-viewport height
+  rotX: 0.55,
+  rotY: -0.5,
+  rotZ: 0.12,
+  idle: 1, // idle float / sway amount
+  // camera
+  camZ: 9,
+  camY: 0.9,
+  orbit: 0, // extra yaw of the whole rig
+  // effects 0..1
+  explode: 0, // pieces separate
+  ingredients: 0, // nuts + nibs drift in
+  labels: 0, // annotation opacity
+  // intro: 0 = single piece solo, 1 = assembled bar in hero pose
+  intro: 1,
+};
+
+export type FilmState = typeof film;
+
+if (import.meta.env.DEV) (window as unknown as { __film: FilmState }).__film = film;
+
+/** DOM label elements registered by the Film component; positioned by the 3D rig every frame */
+export const labelEls: (HTMLElement | null)[] = [];
+/** melt section scroll progress (0 → dry, 1 → fully flowed across) */
+export const melt = { p: 0 };
+/** gifting section scroll progress (0 closed → 1 open + revealed) */
+export const gift = { p: 0 };
