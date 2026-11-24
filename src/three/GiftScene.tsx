@@ -58,9 +58,9 @@ function lidLabel() {
     ctx.beginPath();
     ctx.arc(512, 512, 400, 0, Math.PI * 2);
     ctx.stroke();
-    ctx.font = "italic 700 168px Fraunces, Georgia, serif";
+    ctx.font = "italic 600 172px 'Cormorant Garamond', Georgia, serif";
     ctx.fillText("KRUZZ'S", 512, 480);
-    ctx.font = "600 34px 'Bricolage Grotesque', Arial, sans-serif";
+    ctx.font = "600 34px Manrope, Arial, sans-serif";
     ctx.fillText("T O O   G O O D   T O   S H A R E", 512, 610);
   };
   draw();
@@ -88,14 +88,14 @@ function Box() {
 
   const mats = useMemo(() => {
     const paperBump = noiseTexture("paper", 256, [[64, 0.6], [180, 0.4]], 4, 11);
-    const paper = new THREE.MeshPhysicalMaterial({ color: "#E9B7B5", roughness: 0.82, bumpMap: paperBump, bumpScale: 0.2, sheen: 0.35, sheenColor: new THREE.Color("#fff0ee") });
-    const inside = new THREE.MeshStandardMaterial({ color: "#5A3026", roughness: 0.9, bumpMap: paperBump, bumpScale: 0.1 });
-    const satin = satinMaterial("#5A3026");
+    const paper = new THREE.MeshPhysicalMaterial({ color: "#F6F0E7", roughness: 0.82, bumpMap: paperBump, bumpScale: 0.2, sheen: 0.35, sheenColor: new THREE.Color("#ffffff") });
+    const inside = new THREE.MeshStandardMaterial({ color: "#2B1A14", roughness: 0.9, bumpMap: paperBump, bumpScale: 0.1 });
+    const satin = satinMaterial("#2B1A14");
     satin.transparent = true;
-    const foil = new THREE.MeshPhysicalMaterial({ color: "#c9973f", alphaMap: lidLabel(), transparent: true, metalness: 1, roughness: 0.24, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -2 });
-    const cup = new THREE.MeshStandardMaterial({ color: "#F4DDA8", roughness: 0.6, side: THREE.DoubleSide });
+    const foil = new THREE.MeshPhysicalMaterial({ color: "#C4916C", alphaMap: lidLabel(), transparent: true, metalness: 1, roughness: 0.24, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -2 });
+    const cup = new THREE.MeshStandardMaterial({ color: "#C4916C", roughness: 0.6, side: THREE.DoubleSide });
     const tissue = new THREE.MeshPhysicalMaterial({ color: "#fff4f0", roughness: 0.95, sheen: 0.6, sheenColor: new THREE.Color("#ffffff"), transparent: true, opacity: 0.93, side: THREE.DoubleSide });
-    const gold = new THREE.MeshPhysicalMaterial({ color: "#d9b46c", metalness: 1, roughness: 0.3 });
+    const gold = new THREE.MeshPhysicalMaterial({ color: "#C4916C", metalness: 1, roughness: 0.3 });
     return { paper, inside, satin, foil, cup, tissue, gold };
   }, []);
 
@@ -300,7 +300,7 @@ function Box() {
 
       <mesh rotation-x={-Math.PI / 2} position={[0, 0.002, 0]} scale={[W * 2.1, W * 2.1, 1]}>
         <planeGeometry />
-        <meshBasicMaterial map={softShadowTexture()} color="#2f4a22" transparent opacity={0.42} depthWrite={false} />
+        <meshBasicMaterial map={softShadowTexture()} color="#000000" transparent opacity={0.55} depthWrite={false} />
       </mesh>
     </group>
   );

@@ -114,7 +114,7 @@ export function Gifting() {
               <h2 id="gift-h" className="h2">
                 Give a little <em>happiness.</em>
               </h2>
-              <p className="lead">A rigid blush box, gold-foil lid, satin bow and tissue over nine truffles. The unboxing is half the gift.</p>
+              <p className="lead">A rigid ivory box, a gold-foil lid, a satin bow and tissue over nine truffles. The unboxing is half the gift.</p>
               <ol className="gift-steps" aria-label="Unboxing">
                 {STEPS.map((s, i) => (
                   <li key={s} className={i === step ? "on" : i < step ? "done" : ""}>

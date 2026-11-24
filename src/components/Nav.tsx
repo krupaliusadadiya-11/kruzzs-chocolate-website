@@ -6,11 +6,14 @@ import { scrollApi } from "../lib/scroll";
 
 export const NAV = [
   { label: "Home", href: "#top" },
-  { label: "Our Chocolates", href: "#chocolates" },
+  { label: "Collection", href: "#chocolates" },
   { label: "Our Story", href: "#story" },
   { label: "Ingredients", href: "#ingredients" },
   { label: "Gifting", href: "#gifting" },
 ];
+
+/** Deep Cocoa sections — the nav switches to its light-on-dark style over these */
+const DARK_SECTIONS = [".film", "#chocolates", "#gifting", ".newsletter", ".footer"];
 
 export function go(e: React.MouseEvent, href: string) {
   e.preventDefault();
@@ -22,6 +25,7 @@ export default function Nav() {
   const count = useStore((s) => s.cart.reduce((n, l) => n + l.qty, 0));
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [onDark, setOnDark] = useState(true);
   const [searching, setSearching] = useState(false);
   const [q, setQ] = useState("");
   const term = q.trim().toLowerCase();
@@ -35,10 +39,30 @@ export default function Nav() {
   };
 
   useEffect(() => {
-    const on = () => setScrolled(window.scrollY > 24);
+    // the nav reads ivory-on-cocoa while it sits over one of the dark sections
+    let raf = 0;
+    const on = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        setScrolled(window.scrollY > 24);
+        const y = (document.querySelector(".nav") as HTMLElement | null)?.offsetHeight ?? 70;
+        const dark = DARK_SECTIONS.some((sel) => {
+          const el = document.querySelector(sel);
+          if (!el) return false;
+          const r = el.getBoundingClientRect();
+          return r.top <= y / 2 && r.bottom >= y / 2;
+        });
+        setOnDark(dark);
+      });
+    };
     on();
     window.addEventListener("scroll", on, { passive: true });
-    return () => window.removeEventListener("scroll", on);
+    window.addEventListener("resize", on);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("scroll", on);
+      window.removeEventListener("resize", on);
+    };
   }, []);
 
   useEffect(() => {
@@ -57,7 +81,7 @@ export default function Nav() {
 
   return (
     <>
-    <header className={`nav${scrolled ? " scrolled" : ""}`}>
+    <header className={`nav${scrolled ? " scrolled" : ""}${onDark && !open ? " on-dark" : ""}`}>
       <div className="nav-inner container">
         <a href="#top" className="logo" onClick={(e) => link(e, "#top")} aria-label="KRUZZ'S home">
           KRUZZ<span>'</span>S
@@ -80,8 +104,8 @@ export default function Nav() {
             <Bag />
             {count > 0 && <span className="bag-count">{count}</span>}
           </button>
-          <a href="#chocolates" className="btn btn-dark btn-sm hide-md" onClick={(e) => link(e, "#chocolates")}>
-            Shop now
+          <a href="#chocolates" className="btn btn-gold btn-sm hide-md" onClick={(e) => link(e, "#chocolates")}>
+            Shop Collection
           </a>
           <button className="icon-btn burger" aria-label={open ? "Close menu" : "Open menu"} aria-expanded={open} onClick={() => setOpen((v) => !v)}>
             {open ? <Close /> : <Menu />}
@@ -142,7 +166,7 @@ export default function Nav() {
         </nav>
         <div className="mobile-menu-foot">
           <a href="#chocolates" className="btn btn-dark" onClick={(e) => link(e, "#chocolates")} tabIndex={open ? 0 : -1}>
-            Shop now
+            Shop Collection
           </a>
           <button className="btn btn-ghost" onClick={() => (setOpen(false), actions.openAccount(true))} tabIndex={open ? 0 : -1}>
             <User size={18} /> Account

@@ -136,31 +136,59 @@ export default function Film({ introPlaying, onIntroDone }: { introPlaying: bool
         <div className="container hero-grid">
           <div className="hero-copy">
             <p className="kicker">
-              <span className="dot" /> Chocolate, but make it a mood
+              <span className="dot" /> Handcrafted chocolate
             </p>
             <h1 className="hero-title">
               <span className="ln">
-                <span>Too good</span>
+                <span>Unexpected</span>
               </span>
               <span className="ln">
                 <span>
-                  to <em>share.</em>
+                  <em>Pairings.</em>
                 </span>
               </span>
             </h1>
             <p className="lead">
-              Bold bars, unserious flavours and seriously good chocolate. Snap one square — or the whole bar. We won't tell.
+              Bold flavours. Beautifully crafted.
+              <br />A little indulgence, a lot of personality.
             </p>
             <div className="btn-row">
               <a href="#chocolates" className="btn btn-dark" onClick={(e) => (e.preventDefault(), scrollApi.to("#chocolates"))}>
-                Discover the chocolates <Arrow size={18} />
+                Explore Collection <Arrow size={18} />
               </a>
               <a href="#story" className="btn btn-ghost" onClick={(e) => (e.preventDefault(), scrollApi.to("#story"))}>
-                Our story
+                Our Story
               </a>
             </div>
-            <p className="hero-foot">Snap · Melt · Repeat</p>
+            <p className="hero-foot">Made for the moments worth savouring.</p>
           </div>
+        </div>
+
+        {/* featured-flavour tag beside the bar; shares the hero-copy class so the
+            existing hero fade/entrance tweens carry it — no timeline changes */}
+        <p className="hero-feature hero-copy" aria-label="Featured flavour: Midnight Dark, 70% dark chocolate">
+          <span className="hf-k">Featured flavour</span>
+          <span className="hf-name">Midnight Dark</span>
+          <span className="hf-sub">70% dark chocolate</span>
+        </p>
+
+        {/* ivory information strip along the bottom of the hero (also rides the hero-copy fade) */}
+        <div className="hero-strip hero-copy">
+          <ul className="container hero-strip-inner" aria-label="Brand highlights">
+            {[
+              ["01", "Crafted with Care", "Every chocolate has its own story."],
+              ["02", "Unexpected Flavours", "A new twist in every bite."],
+              ["03", "Made to Be Shared", "Little moments. Big happiness."],
+            ].map(([n, t, s]) => (
+              <li key={n}>
+                <span className="hs-n">{n}</span>
+                <span className="hs-t">
+                  <b>{t}</b>
+                  <small>{s}</small>
+                </span>
+              </li>
+            ))}
+          </ul>
         </div>
         <div className="scroll-cue" aria-hidden="true">
           <span>Scroll to snap</span>

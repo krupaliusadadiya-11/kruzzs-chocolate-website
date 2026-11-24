@@ -11,15 +11,17 @@ export type Flavour = {
   ink: string;
   accent: string;
   pattern: string;
+  foil?: string; // hot-foil colour; defaults to cognac gold
 };
 
+/* carton prints in the three brand colours: ivory, deep cocoa and cognac */
 export const PACK_FLAVOURS: Flavour[] = [
-  { key: "pistachio", name: ["Pistachio", "Crunch"], line: "MILK CHOCOLATE · ROASTED PISTACHIO · 100 g", bg: "#b4d09a", ink: "#3b221b", accent: "#E9B7B5", pattern: "#a5c48a" },
-  { key: "midnight", name: ["Midnight", "Dark"], line: "70% DARK CHOCOLATE · 100 g", bg: "#3d2019", ink: "#FFF8EF", accent: "#E9B7B5", pattern: "#4a281f" },
-  { key: "hazelnut", name: ["Hazelnut", "Heaven"], line: "MILK CHOCOLATE · WHOLE HAZELNUTS · 100 g", bg: "#F4DDA8", ink: "#5A3026", accent: "#E9B7B5", pattern: "#ebcf92" },
+  { key: "pistachio", name: ["Pistachio", "Crunch"], line: "MILK CHOCOLATE · ROASTED PISTACHIO · 100 g", bg: "#F6F0E7", ink: "#2B1A14", accent: "rgba(196,145,108,0.32)", pattern: "rgba(196,145,108,0.16)" },
+  { key: "midnight", name: ["Midnight", "Dark"], line: "70% DARK CHOCOLATE · 100 g", bg: "#2B1A14", ink: "#F6F0E7", accent: "rgba(196,145,108,0.3)", pattern: "rgba(246,240,231,0.05)" },
+  { key: "hazelnut", name: ["Hazelnut", "Heaven"], line: "MILK CHOCOLATE · WHOLE HAZELNUTS · 100 g", bg: "#C4916C", ink: "#2B1A14", accent: "rgba(43,26,20,0.14)", pattern: "rgba(43,26,20,0.06)", foil: "#2B1A14" },
 ];
 
-const GOLD = "#c9a15a";
+const GOLD = "#C4916C";
 
 function canvas(w: number, h: number) {
   const c = document.createElement("canvas");
@@ -57,6 +59,7 @@ function drawBar(ctx: CanvasRenderingContext2D, x: number, y: number, cell: numb
  * KRUZZ'S wordmark and keyline read as real hot-foil gold under the studio lights.
  */
 export function packFront(f: Flavour) {
+  const foil = f.foil ?? GOLD;
   const W = 2048;
   const H = 1078;
   const [c, ctx] = canvas(W, H);
@@ -82,21 +85,21 @@ export function packFront(f: Flavour) {
     drawBar(ctx, -330, -165, 110, 6, 3, "#4a2416", "#6a3520");
     ctx.restore();
     // keyline frame (foil)
-    ctx.strokeStyle = GOLD;
+    ctx.strokeStyle = foil;
     ctx.lineWidth = 6;
     ctx.strokeRect(48, 48, W - 96, H - 96);
     // wordmark (foil)
-    ctx.fillStyle = GOLD;
+    ctx.fillStyle = foil;
     ctx.textBaseline = "alphabetic";
-    ctx.font = "italic 700 210px Fraunces, Georgia, serif";
+    ctx.font = "italic 600 210px 'Cormorant Garamond', Georgia, serif";
     ctx.fillText("KRUZZ'S", 130, 330);
     // flavour
     ctx.fillStyle = f.ink;
-    ctx.font = "600 150px Fraunces, Georgia, serif";
+    ctx.font = "500 150px 'Cormorant Garamond', Georgia, serif";
     ctx.fillText(f.name[0], 130, 560);
-    ctx.font = "italic 400 150px Fraunces, Georgia, serif";
+    ctx.font = "italic 400 150px 'Cormorant Garamond', Georgia, serif";
     ctx.fillText(f.name[1], 130, 710);
-    ctx.font = "600 38px 'Bricolage Grotesque', Arial, sans-serif";
+    ctx.font = "600 38px Manrope, Arial, sans-serif";
     ctx.globalAlpha = 0.85;
     ctx.fillText(f.line.split("").join(String.fromCharCode(8202)), 134, 840);
     ctx.globalAlpha = 1;
@@ -104,7 +107,7 @@ export function packFront(f: Flavour) {
     ctx.fillStyle = f.ink;
     ctx.fillRect(48, H - 150, W - 96, 102);
     ctx.fillStyle = f.bg;
-    ctx.font = "700 40px 'Bricolage Grotesque', Arial, sans-serif";
+    ctx.font = "700 40px Manrope, Arial, sans-serif";
     ctx.textAlign = "center";
     ctx.fillText("T O O   G O O D   T O   S H A R E", W / 2, H - 85);
     ctx.textAlign = "left";
@@ -116,7 +119,7 @@ export function packFront(f: Flavour) {
     mx.fillStyle = "#fff";
     mx.lineWidth = 6;
     mx.strokeRect(48, 48, W - 96, H - 96);
-    mx.font = "italic 700 210px Fraunces, Georgia, serif";
+    mx.font = "italic 600 210px 'Cormorant Garamond', Georgia, serif";
     mx.fillText("KRUZZ'S", 130, 330);
   };
   draw();
@@ -131,6 +134,7 @@ export function packFront(f: Flavour) {
 }
 
 export function packBack(f: Flavour) {
+  const foil = f.foil ?? GOLD;
   const W = 2048;
   const H = 1078;
   const [c, ctx] = canvas(W, H);
@@ -138,9 +142,9 @@ export function packBack(f: Flavour) {
     ctx.fillStyle = f.bg;
     ctx.fillRect(0, 0, W, H);
     ctx.fillStyle = f.ink;
-    ctx.font = "italic 500 130px Fraunces, Georgia, serif";
+    ctx.font = "italic 500 130px 'Cormorant Garamond', Georgia, serif";
     ctx.fillText("Too good to share.", 130, 300);
-    ctx.font = "500 46px 'Bricolage Grotesque', Arial, sans-serif";
+    ctx.font = "500 46px Manrope, Arial, sans-serif";
     ctx.globalAlpha = 0.8;
     ["Snap a square. Then another.", "Tell everyone it was just one piece.", "We won't say anything."].forEach((l, i) => ctx.fillText(l, 134, 430 + i * 70));
     ctx.globalAlpha = 1;
@@ -149,10 +153,10 @@ export function packBack(f: Flavour) {
     ctx.beginPath();
     ctx.roundRect(1300, 200, 620, 620, 30);
     ctx.stroke();
-    ctx.font = "600 34px 'Bricolage Grotesque', Arial, sans-serif";
+    ctx.font = "600 34px Manrope, Arial, sans-serif";
     ["FICTIONAL BRAND", "DEMO PACKAGING", "", f.name.join(" ").toUpperCase(), "100 g"].forEach((l, i) => ctx.fillText(l, 1350, 290 + i * 70));
-    ctx.fillStyle = GOLD;
-    ctx.font = "italic 700 90px Fraunces, Georgia, serif";
+    ctx.fillStyle = foil;
+    ctx.font = "italic 600 90px 'Cormorant Garamond', Georgia, serif";
     ctx.fillText("KRUZZ'S", 130, H - 120);
   };
   draw();
@@ -171,10 +175,10 @@ export function packEdge(f: Flavour) {
     ctx.fillStyle = f.bg;
     ctx.fillRect(0, 0, 2048, 256);
     ctx.fillStyle = f.ink;
-    ctx.font = "italic 700 120px Fraunces, Georgia, serif";
+    ctx.font = "italic 600 120px 'Cormorant Garamond', Georgia, serif";
     ctx.textBaseline = "middle";
     ctx.fillText("KRUZZ'S", 90, 132);
-    ctx.font = "600 64px 'Bricolage Grotesque', Arial, sans-serif";
+    ctx.font = "600 64px Manrope, Arial, sans-serif";
     ctx.fillText(f.name.join(" ").toUpperCase(), 1080, 132);
   };
   draw();
@@ -201,7 +205,7 @@ export function cartonMaterial(map: THREE.Texture, metal?: THREE.Texture) {
 }
 
 /** crinkled gold foil */
-export function foilMaterial(color = "#d8b46a") {
+export function foilMaterial(color = "#C4916C") {
   return new THREE.MeshPhysicalMaterial({
     color,
     metalness: 0.9,
