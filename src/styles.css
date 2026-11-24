@@ -596,10 +596,11 @@ p {
   left: 75%;
   top: 52%;
   width: min(48vw, 76vh);
-  aspect-ratio: 1;
+  aspect-ratio: 1.25;
   translate: -50% -50%;
-  border-radius: 50%;
-  background: radial-gradient(circle at 40% 35%, #f6d3d0 0%, var(--blush) 46%, rgba(233, 183, 181, 0) 71%);
+  /* soft studio light pool — no hard disc edge */
+  background: radial-gradient(closest-side, rgba(244, 221, 168, 0.55) 0%, rgba(244, 221, 168, 0.28) 45%, rgba(255, 248, 239, 0) 100%);
+  filter: blur(10px);
   transition: opacity 0.8s;
 }
 .intro-front .hero-blob {
@@ -636,7 +637,9 @@ p {
 .hero-title .ln {
   display: block;
   overflow: hidden;
-  padding-bottom: 0.06em;
+  /* room for descenders (g, y) inside the reveal mask, without changing line spacing */
+  padding-bottom: 0.2em;
+  margin-bottom: -0.14em;
 }
 .hero-title .ln > span {
   display: inline-block;
@@ -1320,7 +1323,7 @@ p {
   padding-bottom: var(--section);
 }
 .gift-track {
-  height: 260vh;
+  height: 340vh;
 }
 .gift-stage {
   position: sticky;
@@ -2083,7 +2086,7 @@ p {
     margin-top: 0;
   }
   .gift-track {
-    height: 240vh;
+    height: 320vh;
   }
   .gift-grid {
     grid-template-columns: 1fr;
@@ -2099,7 +2102,8 @@ p {
     display: none;
   }
   .gift-steps {
-    grid-auto-flow: column;
+    grid-auto-flow: row;
+    grid-template-columns: 1fr 1fr;
     gap: 8px;
     margin-bottom: var(--s3);
     font-size: 14px;
@@ -2285,4 +2289,186 @@ p {
   color: var(--cream);
   text-decoration: underline;
   text-underline-offset: 4px;
+}
+
+/* ═════════ PACK SHOT (3D carton unboxing) ═════════ */
+.pack {
+  color: var(--ink);
+  position: relative;
+}
+.pack-track {
+  height: 460vh;
+}
+.pack-stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  padding-top: var(--nav-h);
+}
+.pack-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: 4fr 8fr;
+  gap: var(--s4);
+  align-items: center;
+  height: 100%;
+}
+.pack .kicker,
+.pack .h2,
+.pack .lead {
+  color: inherit;
+  transition: color 0.6s;
+}
+.pack .lead {
+  opacity: 0.85;
+  margin: var(--s3) 0;
+}
+.pack-flavour {
+  margin: 0 0 var(--s3);
+  display: grid;
+  gap: 2px;
+}
+.pack-flavour small {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+.pack-flavour b {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(24px, 2.2vw, 34px);
+  line-height: 1.1;
+  animation: packIn 0.6s var(--ease) both;
+}
+@keyframes packIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+    filter: blur(6px);
+  }
+}
+.pack-steps li {
+  color: currentColor;
+  opacity: 0.45;
+  transition: opacity 0.4s;
+}
+.pack-steps li.on,
+.pack-steps li.done {
+  color: currentColor;
+  opacity: 1;
+}
+.pack-steps li span {
+  color: inherit;
+}
+.pack-steps li.on span {
+  color: inherit;
+  background: currentColor;
+  border-color: currentColor;
+}
+.pack-steps li.on span b {
+  color: var(--pbg);
+  font-weight: 600;
+}
+.pack.flv-1 .btn-dark {
+  background: var(--cream);
+  color: var(--choc);
+}
+.pack-canvas {
+  position: relative;
+  height: min(82vh, 760px);
+  margin-left: -4vw;
+}
+.pack-canvas img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--radius);
+}
+.pack-ghost {
+  position: absolute;
+  inset: auto 0 3vh 34%;
+  pointer-events: none;
+  text-align: center;
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 600;
+  font-size: clamp(56px, 8.5vw, 150px);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  white-space: nowrap;
+  height: 1em;
+}
+.pack-ghost span {
+  position: absolute;
+  inset: 0;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 2px currentColor;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s, transform 0.9s var(--ease);
+}
+.pack-ghost span.on {
+  opacity: 0.28;
+  transform: none;
+}
+@media (max-width: 900px) {
+  .pack-track {
+    height: 400vh;
+  }
+  .pack-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+    gap: 0;
+    align-content: start;
+    padding-top: 2vh;
+  }
+  .pack-copy {
+    order: 2;
+  }
+  .pack-copy .lead,
+  .pack-copy .btn {
+    display: none;
+  }
+  .pack-canvas {
+    order: 1;
+    height: 42svh;
+  }
+  .pack-copy .h2 {
+    font-size: clamp(36px, 9vw, 56px);
+  }
+  .pack-copy .kicker {
+    margin-bottom: 10px;
+  }
+  .pack-flavour {
+    margin: 12px 0;
+  }
+  .pack-canvas {
+    margin-left: 0;
+  }
+  .pack-steps {
+    grid-auto-flow: row;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    font-size: 13px;
+  }
+  .pack-steps li {
+    gap: 6px;
+  }
+  .pack-steps li span {
+    width: 26px;
+    height: 26px;
+    flex: none;
+  }
+  .pack-ghost {
+    left: 0;
+    bottom: auto;
+    top: calc(var(--nav-h) + 30svh);
+  }
 }

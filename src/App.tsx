@@ -1,4 +1,4 @@
-import { useCallback, useLayoutEffect, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import SmoothScroll from "./components/SmoothScroll";
@@ -6,6 +6,7 @@ import Nav from "./components/Nav";
 import Film from "./components/Film";
 import Melt from "./components/Melt";
 import Collection from "./components/Collection";
+import Pack from "./components/Pack";
 import { Bestsellers, Footer, Gifting, Ingredients, Newsletter, Story, Testimonials } from "./components/Sections";
 import { CartDrawer, QuickView, Toast } from "./components/Overlays";
 import { AccountDrawer, InfoPage } from "./components/Extras";
@@ -34,6 +35,20 @@ export default function App() {
       /* ignore */
     }
     setIntro(false);
+  }, []);
+
+  /* warm up the below-the-fold 3D scenes while the visitor is still on the hero,
+     so they are compiled and ready the first time they scroll down */
+  useEffect(() => {
+    if (device.tier === "none") return;
+    const warm = () => {
+      void import("./three/MeltScene");
+      void import("./three/PackScene");
+      void import("./three/GiftScene");
+    };
+    const ric = (window as unknown as { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number }).requestIdleCallback;
+    if (ric) ric(warm, { timeout: 2500 });
+    else setTimeout(warm, 1500);
   }, []);
 
   useLayoutEffect(() => {
@@ -72,6 +87,7 @@ export default function App() {
         <Film introPlaying={intro} onIntroDone={introDone} />
         <Melt />
         <Collection />
+        <Pack />
         <Bestsellers />
         <Ingredients />
         <Gifting />

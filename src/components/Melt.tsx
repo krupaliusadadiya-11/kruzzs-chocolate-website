@@ -18,7 +18,7 @@ const MACROS = [
 export default function Melt() {
   const root = useRef<HTMLElement>(null);
   const stream = useRef<HTMLDivElement>(null);
-  const near = useInView(root, "60% 0px", true); // lazy-mount ~half a screen early
+  const near = useInView(root, "150% 0px", true); // lazy-mount ~half a screen early
   const visible = useInView(stream, "80px");
   const has3D = device.tier !== "none";
 

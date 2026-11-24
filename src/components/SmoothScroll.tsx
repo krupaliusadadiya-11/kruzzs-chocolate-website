@@ -31,10 +31,38 @@ export default function SmoothScroll({ children, locked }: { children: ReactNode
   useEffect(() => {
     document.documentElement.classList.toggle("locked", locked);
     const l = scrollApi.lenis;
-    if (!l) return;
-    if (locked) l.stop();
-    else l.start();
+    if (l) {
+      if (locked) l.stop();
+      else l.start();
+    }
+    // the lock hides the scrollbar, so everything below the hero was measured at
+    // the wrong width — re-measure once the page is scrollable again
+    if (!locked) {
+      const id = requestAnimationFrame(() => ScrollTrigger.refresh());
+      return () => cancelAnimationFrame(id);
+    }
   }, [locked]);
+
+  /* re-measure whenever the page height changes (late images, fonts, lazy sections) */
+  useEffect(() => {
+    let last = document.body.scrollHeight;
+    let t = 0;
+    const ro = new ResizeObserver(() => {
+      const h = document.body.scrollHeight;
+      if (Math.abs(h - last) < 2) return;
+      last = h;
+      clearTimeout(t);
+      t = window.setTimeout(() => {
+        ScrollTrigger.refresh();
+        last = document.body.scrollHeight;
+      }, 200);
+    });
+    ro.observe(document.body);
+    return () => {
+      ro.disconnect();
+      clearTimeout(t);
+    };
+  }, []);
 
   return <>{children}</>;
 }

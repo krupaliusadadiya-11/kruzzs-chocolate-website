@@ -77,11 +77,13 @@ export function Ingredients() {
 }
 
 /* ── Gifting: sticky 3D box that unwraps with the scroll ── */
-const STEPS = ["Ribbon loosens", "Lid lifts", "Hello, truffles"];
+/* boundaries match beats() in GiftScene */
+const STEPS = ["Untie the bow", "Lift the lid", "Unfold the tissue", "Hello, truffles"];
+const giftStep = (p: number) => (p < 0.32 ? 0 : p < 0.58 ? 1 : p < 0.74 ? 2 : 3);
 export function Gifting() {
   const root = useRef<HTMLElement>(null);
   const stage = useRef<HTMLDivElement>(null);
-  const near = useInView(root, "70% 0px", true);
+  const near = useInView(root, "150% 0px", true);
   const visible = useInView(stage, "60px");
   const has3D = device.tier !== "none";
   const [step, setStep] = useState(0);
@@ -95,7 +97,7 @@ export function Gifting() {
         scrub: true,
         onUpdate: (st) => {
           gift.p = st.progress;
-          setStep(st.progress < 0.36 ? 0 : st.progress < 0.68 ? 1 : 2);
+          setStep(giftStep(st.progress));
         },
       });
     }, root);
@@ -112,7 +114,7 @@ export function Gifting() {
               <h2 id="gift-h" className="h2">
                 Give a little <em>happiness.</em>
               </h2>
-              <p className="lead">Blush-pink boxes, satin ribbon and nine truffles inside. The unboxing is half the gift.</p>
+              <p className="lead">A rigid blush box, gold-foil lid, satin bow and tissue over nine truffles. The unboxing is half the gift.</p>
               <ol className="gift-steps" aria-label="Unboxing">
                 {STEPS.map((s, i) => (
                   <li key={s} className={i === step ? "on" : i < step ? "done" : ""}>

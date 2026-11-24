@@ -33,3 +33,5 @@ export const labelEls: (HTMLElement | null)[] = [];
 export const melt = { p: 0 };
 /** gifting section scroll progress (0 closed → 1 open + revealed) */
 export const gift = { p: 0 };
+/** pack-shot section scroll progress (0 carton front → 1 bar lifted out) */
+export const pack = { p: 0 };
