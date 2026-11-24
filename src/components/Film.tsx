@@ -87,7 +87,7 @@ export default function Film({ introPlaying, onIntroDone }: { introPlaying: bool
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
         defaults: { ease: "none" },
-        scrollTrigger: { trigger: root.current, start: "top top", end: "bottom bottom", scrub: 0.8, invalidateOnRefresh: true },
+        scrollTrigger: { trigger: root.current, start: "top top", end: "bottom bottom", scrub: 0.5, invalidateOnRefresh: true },
       });
       const bg = stage.current!;
       // 0 → 1.4 hero hands over to centre stage

@@ -564,7 +564,7 @@ p {
 /* ═════════ FILM: intro + hero + snap ═════════ */
 .film {
   position: relative;
-  height: 420vh;
+  height: 340vh; /* was 420vh: ~25% less scrolling for the same hero sequence */
 }
 .film-stage {
   position: sticky;
@@ -879,7 +879,7 @@ p {
 
 @media (max-width: 899px) and (orientation: portrait), (max-width: 640px) {
   .film {
-    height: 380vh;
+    height: 310vh; /* was 380vh */
   }
   .hero-grid {
     align-items: end;
