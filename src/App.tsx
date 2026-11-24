@@ -11,6 +11,7 @@ import { Bestsellers, Footer, Gifting, Ingredients, Newsletter, Story, Testimoni
 import { CartDrawer, QuickView, Toast } from "./components/Overlays";
 import { AccountDrawer, InfoPage } from "./components/Extras";
 import { device } from "./lib/device";
+import { onFilmReady } from "./lib/film";
 
 gsap.registerPlugin(ScrollTrigger);
 if (import.meta.env.DEV) (window as unknown as { __ST: typeof ScrollTrigger }).__ST = ScrollTrigger;
@@ -46,9 +47,10 @@ export default function App() {
       void import("./three/PackScene");
       void import("./three/GiftScene");
     };
+    // only after the hero chocolate is on screen, so it never competes with it
     const ric = (window as unknown as { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number }).requestIdleCallback;
-    if (ric) ric(warm, { timeout: 2500 });
-    else setTimeout(warm, 1500);
+    const later = () => (ric ? ric(warm, { timeout: 2500 }) : setTimeout(warm, 800));
+    return onFilmReady(later);
   }, []);
 
   useLayoutEffect(() => {

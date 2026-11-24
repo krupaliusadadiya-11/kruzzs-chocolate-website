@@ -748,6 +748,11 @@ p {
 .intro-word .ch {
   display: inline-block;
 }
+/* until the splash timeline starts (it waits for the 3D chocolate), keep the
+   wordmark out of sight so it never shows at rest and then jumps */
+.intro:not(.go) .intro-word {
+  opacity: 0;
+}
 .intro-tag {
   margin-top: 4vh;
   font-size: 13px;

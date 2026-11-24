@@ -1,7 +1,7 @@
 import { lazy, Suspense, useEffect, useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { film, labelEls } from "../lib/film";
+import { film, labelEls, onFilmReady } from "../lib/film";
 import { device } from "../lib/device";
 import { scrollApi } from "../lib/scroll";
 import { useInView } from "../three/useInView";
@@ -34,7 +34,27 @@ export default function Film({ introPlaying, onIntroDone }: { introPlaying: bool
       return;
     }
     film.intro = 0;
-    const ctx = gsap.context(() => {
+    // start the (unchanged) splash timeline as soon as the 3D chocolate has drawn
+    // its first frame, so it is visible from the first beat; never wait > 2.5 s
+    let ctx: gsap.Context | null = null;
+    let started = false;
+    const start = () => {
+      if (started) return;
+      started = true;
+      root.current?.querySelector(".intro")?.classList.add("go");
+      ctx = play();
+    };
+    const off = onFilmReady(start);
+    const cap = window.setTimeout(start, 2500);
+    return () => {
+      off();
+      clearTimeout(cap);
+      ctx?.revert();
+    };
+  }, [introPlaying, onIntroDone]);
+
+  function play() {
+    return gsap.context(() => {
       const tl = gsap.timeline({ onComplete: onIntroDone });
       tl.to(film, { intro: 1, duration: 3.1, ease: "power2.inOut" }, 0.15)
         .fromTo(".intro-word .ch", { yPercent: 110 }, { yPercent: 0, duration: 0.9, stagger: 0.05, ease: "power4.out" }, 0.35)
@@ -46,8 +66,7 @@ export default function Film({ introPlaying, onIntroDone }: { introPlaying: bool
       evs.forEach((e) => window.addEventListener(e, skip, { once: true, passive: true }));
       return () => evs.forEach((e) => window.removeEventListener(e, skip));
     }, root);
-    return () => ctx.revert();
-  }, [introPlaying, onIntroDone]);
+  }
 
   /* ── hero entrance after the intro ── */
   useEffect(() => {

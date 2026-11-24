@@ -35,3 +35,26 @@ export const melt = { p: 0 };
 export const gift = { p: 0 };
 /** pack-shot section scroll progress (0 carton front → 1 bar lifted out) */
 export const pack = { p: 0 };
+
+/**
+ * Hero 3D readiness: resolved after the film scene has drawn its first frame.
+ * The splash waits on this (with a short safety timeout) so the chocolate is
+ * on screen from the first beat instead of popping in halfway through.
+ */
+let filmIsReady = false;
+const readyListeners = new Set<() => void>();
+export function markFilmReady() {
+  if (filmIsReady) return;
+  filmIsReady = true;
+  if (typeof performance !== "undefined") performance.mark("kz-film-ready");
+  readyListeners.forEach((f) => f());
+  readyListeners.clear();
+}
+export function onFilmReady(cb: () => void) {
+  if (filmIsReady) {
+    cb();
+    return () => {};
+  }
+  readyListeners.add(cb);
+  return () => void readyListeners.delete(cb);
+}

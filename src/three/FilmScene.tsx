@@ -4,7 +4,7 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Environment, Lightformer } from "@react-three/drei";
 import { BAR, hazelnutGeometry, nibGeometry, pieceGeometry, piecePositions, pistachioGeometry } from "./geometry";
 import { chocolateMaterial, softShadowTexture } from "./materials";
-import { film, labelEls } from "../lib/film";
+import { film, labelEls, markFilmReady } from "../lib/film";
 import { device } from "../lib/device";
 
 
@@ -236,6 +236,17 @@ export function StudioLights() {
   );
 }
 
+/** tells the page the hero has painted (first frame drawn, shaders compiled) */
+function ReadySignal() {
+  const sent = useRef(false);
+  useFrame(() => {
+    if (sent.current) return;
+    sent.current = true;
+    requestAnimationFrame(() => markFilmReady());
+  });
+  return null;
+}
+
 export default function FilmScene({ active }: { active: boolean }) {
   const low = device.tier === "low";
   return (
@@ -252,6 +263,7 @@ export default function FilmScene({ active }: { active: boolean }) {
     >
       <StudioLights />
       <Rig />
+      <ReadySignal />
     </Canvas>
   );
 }
