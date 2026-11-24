@@ -61,6 +61,8 @@ export default function Film({ introPlaying, onIntroDone }: { introPlaying: bool
         .fromTo(".intro-tag", { autoAlpha: 0, y: 12 }, { autoAlpha: 1, y: 0, duration: 0.6 }, 1.0)
         .to(".intro-word, .intro-tag", { autoAlpha: 0, scale: 0.94, duration: 0.6, ease: "power2.in" }, 2.35)
         .to(".intro", { autoAlpha: 0, duration: 0.7 }, 2.55);
+      // play the whole splash a little faster (3.25 s → ~2.7 s); same beats, same order
+      tl.timeScale(1.2);
       const skip = () => tl.timeScale(5);
       const evs = ["wheel", "touchstart", "keydown", "pointerdown"] as const;
       evs.forEach((e) => window.addEventListener(e, skip, { once: true, passive: true }));
