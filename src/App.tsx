@@ -11,7 +11,7 @@ import { Bestsellers, Footer, Gifting, Ingredients, Newsletter, Story, Testimoni
 import { CartDrawer, QuickView, Toast } from "./components/Overlays";
 import { AccountDrawer, InfoPage } from "./components/Extras";
 import { device } from "./lib/device";
-import { onFilmReady } from "./lib/film";
+import { startScenePreload } from "./lib/scenePreload";
 
 gsap.registerPlugin(ScrollTrigger);
 if (import.meta.env.DEV) (window as unknown as { __ST: typeof ScrollTrigger }).__ST = ScrollTrigger;
@@ -38,20 +38,11 @@ export default function App() {
     setIntro(false);
   }, []);
 
-  /* warm up the below-the-fold 3D scenes while the visitor is still on the hero,
-     so they are compiled and ready the first time they scroll down */
+  /* prepare the below-the-fold 3D scenes in the background once the splash is done
+     (mount → compile shaders off-thread → upload textures → one hidden frame) */
   useEffect(() => {
-    if (device.tier === "none") return;
-    const warm = () => {
-      void import("./three/MeltScene");
-      void import("./three/PackScene");
-      void import("./three/GiftScene");
-    };
-    // only after the hero chocolate is on screen, so it never competes with it
-    const ric = (window as unknown as { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number }).requestIdleCallback;
-    const later = () => (ric ? ric(warm, { timeout: 2500 }) : setTimeout(warm, 800));
-    return onFilmReady(later);
-  }, []);
+    if (!intro) startScenePreload();
+  }, [intro]);
 
   useLayoutEffect(() => {
     history.scrollRestoration = "manual";

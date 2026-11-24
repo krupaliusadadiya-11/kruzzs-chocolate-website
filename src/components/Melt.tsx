@@ -4,6 +4,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { device } from "../lib/device";
 import { melt } from "../lib/film";
 import { useInView } from "../three/useInView";
+import { useScenePreloaded } from "../lib/scenePreload";
+import ScenePoster from "./ScenePoster";
 import Img from "./Img";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -21,6 +23,7 @@ export default function Melt() {
   const near = useInView(root, "150% 0px", true); // lazy-mount ~half a screen early
   const visible = useInView(stream, "80px");
   const has3D = device.tier !== "none";
+  const preloaded = useScenePreloaded("melt"); // background warm-up queue reached this scene
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -61,11 +64,14 @@ export default function Melt() {
 
       <div ref={stream} className="melt-stream" aria-hidden="true">
         {has3D ? (
-          near && (
-            <Suspense fallback={null}>
-              <MeltScene active={visible} />
-            </Suspense>
-          )
+          <>
+            <ScenePoster name="melt" img="t-silk" sizes="100vw" variant="band" />
+            {(near || preloaded) && (
+              <Suspense fallback={null}>
+                <MeltScene active={visible} />
+              </Suspense>
+            )}
+          </>
         ) : (
           <Img name="t-silk" alt="" sizes="100vw" className="melt-fallback" />
         )}

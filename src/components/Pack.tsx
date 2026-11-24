@@ -5,6 +5,7 @@ import { device } from "../lib/device";
 import { pack } from "../lib/film";
 import { scrollApi } from "../lib/scroll";
 import { useInView } from "../three/useInView";
+import { useScenePreloaded } from "../lib/scenePreload";
 import Img from "./Img";
 import { Arrow } from "./Icons";
 
@@ -37,6 +38,7 @@ export default function Pack() {
   const near = useInView(root, "150% 0px", true);
   const visible = useInView(stage, "60px");
   const has3D = device.tier !== "none";
+  const preloaded = useScenePreloaded("pack"); // background warm-up queue reached this scene
   const [flv, setFlv] = useState(0);
   const [step, setStep] = useState(0);
 
@@ -102,11 +104,13 @@ export default function Pack() {
             </div>
             <div className="pack-canvas" aria-hidden="true">
               {has3D ? (
-                near && (
-                  <Suspense fallback={null}>
-                    <PackScene active={visible} />
-                  </Suspense>
-                )
+                <>
+                  {(near || preloaded) && (
+                    <Suspense fallback={null}>
+                      <PackScene active={visible} />
+                    </Suspense>
+                  )}
+                </>
               ) : (
                 <Img name="p-pistachio" alt="" sizes="(max-width: 760px) 92vw, 50vw" />
               )}

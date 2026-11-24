@@ -58,3 +58,19 @@ export function onFilmReady(cb: () => void) {
   readyListeners.add(cb);
   return () => void readyListeners.delete(cb);
 }
+
+/* ── below-the-fold 3D scenes: first-frame readiness (drives the poster fallbacks) ── */
+export type SceneName = "melt" | "pack" | "gift";
+const sceneIsReady: Record<SceneName, boolean> = { melt: false, pack: false, gift: false };
+const sceneListeners = new Set<() => void>();
+export function markSceneReady(name: SceneName) {
+  if (sceneIsReady[name]) return;
+  sceneIsReady[name] = true;
+  if (typeof performance !== "undefined") performance.mark(`kz-${name}-ready`);
+  sceneListeners.forEach((f) => f());
+}
+export const isSceneReady = (name: SceneName) => sceneIsReady[name];
+export function subscribeScenes(cb: () => void) {
+  sceneListeners.add(cb);
+  return () => void sceneListeners.delete(cb);
+}

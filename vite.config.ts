@@ -31,6 +31,14 @@ function preloadHeroScene(): Plugin {
           if (c && c.type === "chunk") c.imports.forEach(walk);
         };
         walk(hero.fileName);
+        // the below-the-fold scene modules are tiny (three.js itself is shared with the
+        // hero chunk above): fetch them up front too, so mounting one never waits on
+        // the network — they are still only executed when their section needs them
+        for (const c of chunks) {
+          if (c.type !== "chunk") continue;
+          const ids = Object.keys(c.modules).map((id) => id.replace(/\\/g, "/"));
+          if (ids.some((id) => /\/src\/three\/(MeltScene|PackScene|GiftScene)\.tsx$/.test(id))) walk(c.fileName);
+        }
         const tags = [...files]
           .filter((f) => !html.includes(f)) // the entry + its static imports are already linked
           .map((f) => `<link rel="modulepreload" crossorigin href="./${f}">`)

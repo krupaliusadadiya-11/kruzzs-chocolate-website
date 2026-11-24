@@ -1,10 +1,11 @@
-import { useMemo, useRef } from "react";
+import { useLayoutEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { StudioLights } from "./FilmScene";
 import { pieceGeometry, piecePositions } from "./geometry";
 import { chocolateMaterial, softShadowTexture } from "./materials";
 import { PACK_FLAVOURS, cartonMaterial, crinkle, foilMaterial, packBack, packEdge, packFront, pointer } from "./packaging";
+import { FirstFrame } from "./FirstFrame";
 import { device } from "../lib/device";
 import { pack } from "../lib/film";
 
@@ -107,6 +108,19 @@ function Carton() {
     capL.material = capR.material = s.bg;
   };
 
+  // put the first print on before the warm-up compiles the scene (previously this
+  // happened in the first animation frame, so its shaders compiled on arrival)
+  useLayoutEffect(() => {
+    assign(cur.current < 0 ? 0 : cur.current);
+    if (cur.current < 0) cur.current = 0;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  // every flavour's print, uploaded ahead of time so the mid-spin swap never stalls
+  const warmTextures = useMemo(
+    () => sets.flatMap((s) => [s.front.map, s.front.metalnessMap, s.back.map, s.edge.map, s.front.bumpMap]),
+    [sets],
+  );
+
   useFrame((state) => {
     const b = packBeats(pack.p);
     // swap the print while the back of the carton faces the camera
@@ -137,6 +151,7 @@ function Carton() {
 
   return (
     <group>
+      <FirstFrame name="pack" textures={warmTextures} />
       <group ref={sleeve}>
         <mesh ref={(m) => void (printed.current[0] = m!)} geometry={geos.face} position={[0, 0, T / 2 - P / 2]} />
         <mesh ref={(m) => void (printed.current[1] = m!)} geometry={geos.face} position={[0, 0, -T / 2 + P / 2]} />

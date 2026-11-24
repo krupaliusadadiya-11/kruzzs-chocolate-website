@@ -5,6 +5,7 @@ import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeom
 import { StudioLights } from "./FilmScene";
 import { chocolateMaterial, matteMaterial, noiseTexture, softShadowTexture } from "./materials";
 import { crinkle, pointer, ribbonAlong, satinMaterial } from "./packaging";
+import { FirstFrame } from "./FirstFrame";
 import { device } from "../lib/device";
 import { gift } from "../lib/film";
 
@@ -349,6 +350,7 @@ export default function GiftScene({ active }: { active: boolean }) {
     >
       <StudioLights />
       <Rig />
+      <FirstFrame name="gift" />
     </Canvas>
   );
 }

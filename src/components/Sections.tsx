@@ -5,6 +5,7 @@ import { BESTSELLERS, GIFTS, INGREDIENTS, TESTIMONIALS, productById } from "../d
 import { device } from "../lib/device";
 import { gift } from "../lib/film";
 import { useInView } from "../three/useInView";
+import { useScenePreloaded } from "../lib/scenePreload";
 import { scrollApi } from "../lib/scroll";
 import { actions, type PageId } from "../lib/store";
 import ProductCard from "./ProductCard";
@@ -86,6 +87,7 @@ export function Gifting() {
   const near = useInView(root, "150% 0px", true);
   const visible = useInView(stage, "60px");
   const has3D = device.tier !== "none";
+  const preloaded = useScenePreloaded("gift"); // background warm-up queue reached this scene
   const [step, setStep] = useState(0);
 
   useLayoutEffect(() => {
@@ -128,11 +130,13 @@ export function Gifting() {
             </div>
             <div className="gift-canvas" aria-hidden="true">
               {has3D ? (
-                near && (
-                  <Suspense fallback={null}>
-                    <GiftScene active={visible} />
-                  </Suspense>
-                )
+                <>
+                  {(near || preloaded) && (
+                    <Suspense fallback={null}>
+                      <GiftScene active={visible} />
+                    </Suspense>
+                  )}
+                </>
               ) : (
                 <Img name="g-box" alt="" sizes="(max-width: 760px) 92vw, 45vw" />
               )}

@@ -2,6 +2,7 @@ import { useMemo, useRef } from "react";
 import * as THREE from "three";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Environment, Lightformer } from "@react-three/drei";
+import { FirstFrame } from "./FirstFrame";
 import { device } from "../lib/device";
 import { melt } from "../lib/film";
 
@@ -140,6 +141,7 @@ export default function MeltScene({ active }: { active: boolean }) {
       </Environment>
       <Cam />
       <MeltSheet />
+      <FirstFrame name="melt" />
     </Canvas>
   );
 }
