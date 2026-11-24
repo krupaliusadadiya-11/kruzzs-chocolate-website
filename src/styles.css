@@ -3191,3 +3191,48 @@ body {
     font-size: 27px;
   }
 }
+
+/* ═════════ TEXT VISIBILITY FIXES ═════════
+   Reveal masks used overflow:hidden, which also shaved the sides of wide or
+   italic words (the last "d" of "Unexpected" on wide screens). clip-path with
+   negative side insets keeps the same bottom edge for the slide-up reveal but
+   never cuts letters left/right or at the top. Animations are unchanged. */
+.hero-copy {
+  max-width: min(780px, 100%);
+}
+.hero-title .ln {
+  overflow: visible;
+  clip-path: inset(-0.5em -0.6em 0 -0.6em);
+}
+.hero-title {
+  font-size: clamp(66px, 7.6vw, 140px);
+}
+
+/* the ivory strip + flavour tag stay hidden until the splash hands over */
+.intro-on .hero-strip,
+.intro-on .hero-feature {
+  visibility: hidden;
+}
+
+/* decorative outline flavour name: always fits its width */
+.pack-ghost {
+  font-size: clamp(48px, 7.4vw, 140px);
+}
+
+/* footer wordmark: fully visible instead of bleeding off the bottom */
+.f-giant {
+  font-size: 19vw;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  margin-bottom: 0;
+  padding-bottom: 2vw;
+}
+
+@media (max-width: 899px) and (orientation: portrait), (max-width: 640px) {
+  .hero-title {
+    font-size: clamp(50px, 13.5vw, 88px);
+  }
+  .pack-ghost {
+    font-size: 10vw;
+  }
+}
